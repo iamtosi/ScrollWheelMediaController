@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "YT WS Controller",
+  "version": "1.0",
+  "description": "Перемотка видео через WebSocket",
+  "permissions": [
+    "scripting",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "YT WS Controller",
+    "default_popup": "popup.html"
+  }
+  
+}
