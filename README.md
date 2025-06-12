@@ -41,5 +41,5 @@ This tool connects a Python script that listens to the scroll wheel input with a
 
 ## Notes 
 - p.py must stay running in the background.
-- Works best with YouTube, SoundCloud, and other media sites.
+- Works with YouTube/Music only.
 - Only affects active Chrome tab with audio/video.
