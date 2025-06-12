@@ -33,7 +33,7 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 
 prev_vol = volume.GetMasterVolumeLevel()
 
-print("Сервер запущен. Нажми Scroll Lock для переключения режима перемотки.")
+print("Server started. Press Home to toggle rewind mode.")
 
 async def send_ws_message(message):
     if clients:
@@ -46,12 +46,12 @@ scroll_lock_prev = False
 while True:
     time.sleep(0.1)
 
-    # переключение
-    if keyboard.is_pressed("scroll lock") and not scroll_lock_prev:
+
+    if keyboard.is_pressed("home") and not scroll_lock_prev:
         rewind_mode = not rewind_mode
         scroll_lock_prev = True
-        print("🔁 Режим перемотки:", "ВКЛ ✅" if rewind_mode else "ВЫКЛ ❌")
-    elif not keyboard.is_pressed("scroll lock"):
+        print("Rewind mode:", "ON" if rewind_mode else "OFF")
+    elif not keyboard.is_pressed("home"):
         scroll_lock_prev = False
 
     current_vol = volume.GetMasterVolumeLevel()
@@ -59,12 +59,12 @@ while True:
 
     vol_scalar = volume.GetMasterVolumeLevelScalar()
     if vol_scalar >= 0.99:
-        print("🔊 Громкость была на 100%, сбрасываю до 98% для захвата прокрутки")
+        print("Volume was at 100%, I reset it to 98% to capture scrolling")
         volume.SetMasterVolumeLevelScalar(0.98, None)
         current_vol = volume.GetMasterVolumeLevel()  
     if rewind_mode and abs(delta) > 0.1:
         direction = "forward" if delta > 0 else "rewind"
-        print(f"📤 Отправка команды: {direction}")
+        print(f"Sending command {direction}")
         
         asyncio.run(send_ws_message(direction))
         volume.SetMasterVolumeLevel(prev_vol, None)
